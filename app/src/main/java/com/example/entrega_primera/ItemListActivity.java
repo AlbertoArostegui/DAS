@@ -23,16 +23,17 @@ public class ItemListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_list);
-        insertarDatos();
-
-        listView = findViewById(R.id.listView);
-        listaItem = new ArrayList<>();
-        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listaItem);
-        listView.setAdapter(adapter);
 
         dbHandler = new DBHandler(this);
+        listaItem = new ArrayList<Item>();
 
+
+
+        listView = findViewById(R.id.listView);
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listaItem);
+        insertarDatos();
         cargarItemsDeBaseDeDatos();
+        listView.setAdapter(adapter);
 
         Button addButton = findViewById(R.id.addButton);
         addButton.setOnClickListener(new View.OnClickListener() {
@@ -51,7 +52,7 @@ public class ItemListActivity extends AppCompatActivity {
                 Item item = listaItem.get(position);
                 // Abrir la actividad de detalle con los datos del elemento seleccionado
                 Intent intent = new Intent(ItemListActivity.this, ItemDetailActivity.class);
-                intent.putExtra("item_id", "23");
+                intent.putExtra("item_id", item.getId());
                 startActivity(intent);
             }
         });
@@ -72,10 +73,11 @@ public class ItemListActivity extends AppCompatActivity {
         listaItem.clear();
         if (cu != null && cu.moveToFirst()) {
             do {
-                String brand = cu.getString(0);
-                String model = cu.getString(1);
-                float price = cu.getFloat(2);
-                listaItem.add(new Item(brand, model, price));
+                int id = cu.getInt(0);
+                String brand = cu.getString(1);
+                String model = cu.getString(2);
+                float price = cu.getFloat(3);
+                listaItem.add(new Item(id, brand, model, price));
             } while (cu.moveToNext());
             cu.close();
         }
@@ -90,11 +92,17 @@ public class ItemListActivity extends AppCompatActivity {
         values.put(DBHandler.COLUMN_PRICE, "69999.0");
 
         SQLiteDatabase db = dbHandler.getWritableDatabase();
-
         long newRow = db.insert(DBHandler.TABLE_ITEMS, null, values);
+
+        values.put(DBHandler.COLUMN_BRAND, "McLaren");
+        values.put(DBHandler.COLUMN_MODEL, "P1");
+        values.put(DBHandler.COLUMN_PRICE, "1169999.0");
+
+
+        newRow = db.insert(DBHandler.TABLE_ITEMS, null, values);
         db.close();
 
-        if (newRow != -2) {
+        if (newRow != -1) {
             System.out.println("Se inserto correctamente");
         }
     }

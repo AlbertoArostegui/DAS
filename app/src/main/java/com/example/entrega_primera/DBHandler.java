@@ -46,7 +46,7 @@ public class DBHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         Item item = null;
         Cursor cursor = db.query(TABLE_ITEMS,
-                new String[]{COLUMN_ID, COLUMN_BRAND, COLUMN_BRAND, COLUMN_PRICE},
+                new String[]{COLUMN_ID, COLUMN_BRAND, COLUMN_MODEL, COLUMN_PRICE},
                 COLUMN_ID + " = ?",
                 new String[]{String.valueOf(id)},
                 null, null, null);
@@ -55,7 +55,7 @@ public class DBHandler extends SQLiteOpenHelper {
             String marca = cursor.getString(1);
             String modelo = cursor.getString(2);
             Float precio = cursor.getFloat(3);
-            item = new Item(marca, modelo, precio);
+            item = new Item(id, marca, modelo, precio);
             cursor.close();
         }
         db.close();
