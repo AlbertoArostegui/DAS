@@ -1,18 +1,23 @@
 package com.example.entrega_primera;
 
 public class Item {
-    private String titulo;
-    private String contenido;
+    private String brand;
+    private String model;
+    private float price;
 
-    public Item(String titulo, String contenido) {
-        this.titulo = titulo;
-        this.contenido = contenido;
+    public Item(String brand, String model, float price) {
+        this.brand = brand;
+        this.model = model;
+        this.price = price;
     }
 
-    public String getTitulo() {
-        return this.titulo;
+    public String getBrand() {
+        return this.brand;
     }
-    public String getContenido() {
-        return this.contenido;
+    public String getModel() {
+        return this.model;
+    }
+    public float getPrice() {
+        return this.price;
     }
 }

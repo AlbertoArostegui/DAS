@@ -26,11 +26,13 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 
         Item currentItem = itemList.get(position);
 
-        TextView textTitle = convertView.findViewById(R.id.textoTitulo);
-        TextView textDescription = convertView.findViewById(R.id.texto2);
+        TextView textBrand = convertView.findViewById(R.id.textoMarca);
+        TextView textModel = convertView.findViewById(R.id.textoModelo);
+        TextView textPrice = convertView.findViewById(R.id.textoPrecio);
 
-        textTitle.setText(currentItem.getTitulo());
-        textDescription.setText(currentItem.getContenido());
+        textBrand.setText(currentItem.getBrand());
+        textModel.setText(currentItem.getModel());
+        textPrice.setText(Float.toString(currentItem.getPrice()));
 
         return convertView;
     }
