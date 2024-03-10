@@ -1,6 +1,7 @@
 package com.example.entrega_primera;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -30,6 +31,7 @@ public class ItemListActivity extends AppCompatActivity {
 
 
         listView = findViewById(R.id.listView);
+        
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listaItem);
         insertarDatos();
         cargarItemsDeBaseDeDatos();
@@ -62,6 +64,11 @@ public class ItemListActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         cargarItemsDeBaseDeDatos();
+    }
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        // do nothing
     }
     private void cargarItemsDeBaseDeDatos() {
         DBHandler handler = new DBHandler(this);

@@ -36,9 +36,9 @@ public class ItemDetailActivity extends AppCompatActivity {
             Item item = db.getItemFromId(itemId);
             if (item != null) {
                 System.out.println(item.getBrand());
-                textViewBrand.setText(item.getBrand());
-                textViewModel.setText(item.getModel());
-                textViewPrice.setText(Float.toString(item.getPrice()));
+                textViewBrand.setText("Marca: " + item.getBrand());
+                textViewModel.setText("Modelo: " + item.getModel());
+                textViewPrice.setText("Precio: " + Float.toString(item.getPrice()));
             }
         }
 

@@ -23,4 +23,9 @@ public class Item {
     public float getPrice() {
         return this.price;
     }
+
+    @Override
+    public String toString() {
+        return this.brand + " " + this.model;
+    }
 }
