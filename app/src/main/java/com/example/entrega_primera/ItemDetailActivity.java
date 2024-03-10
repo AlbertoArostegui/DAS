@@ -38,7 +38,7 @@ public class ItemDetailActivity extends AppCompatActivity {
                 System.out.println(item.getBrand());
                 textViewBrand.setText("Marca: " + item.getBrand());
                 textViewModel.setText("Modelo: " + item.getModel());
-                textViewPrice.setText("Precio: " + Float.toString(item.getPrice()));
+                textViewPrice.setText("Precio: " + Float.toString(item.getPrice()) + "€");
             }
         }
 
