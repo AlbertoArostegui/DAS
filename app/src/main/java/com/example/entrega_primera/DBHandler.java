@@ -41,7 +41,21 @@ public class DBHandler extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_ITEMS);
         onCreate(db);
     }
-
+    public void editItem(Item item) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("UPDATE " + TABLE_ITEMS + " SET " +
+                COLUMN_BRAND + " = '" + item.getBrand() + "', " +
+                COLUMN_MODEL + " = '" + item.getModel() + "', " +
+                COLUMN_PRICE + " = " + item.getPrice() +
+                " WHERE " + COLUMN_ID + " = " + item.getId());
+        db.close();
+    }
+    public void deleteItem(int id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_ITEMS, COLUMN_ID + " = ?",
+                new String[]{String.valueOf(id)});
+        db.close();
+    }
     public Item getItemFromId(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
         Item item = null;

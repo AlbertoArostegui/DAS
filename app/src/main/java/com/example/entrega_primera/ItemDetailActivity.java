@@ -5,7 +5,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
-
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 
 public class ItemDetailActivity extends AppCompatActivity {
 
@@ -15,6 +16,7 @@ public class ItemDetailActivity extends AppCompatActivity {
     private Button buttonEdit;
     private DBHandler dbHandler;
     private int itemId;
+    private Button buttonDelete;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,8 +44,35 @@ public class ItemDetailActivity extends AppCompatActivity {
             }
         }
 
-        // Configurar el botón para editar el elemento
-        /*
+        buttonDelete = findViewById(R.id.buttonDelete);
+        buttonDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(ItemDetailActivity.this);
+                builder.setTitle("Confirmar eliminación");
+                builder.setMessage("¿Estás seguro de que quieres eliminar este elemento?");
+
+                builder.setPositiveButton("Sí", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // User clicked Yes, delete the item
+                        db.deleteItem(itemId);
+                        finish();
+                    }
+                });
+
+                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+        });
+
         buttonEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -53,6 +82,5 @@ public class ItemDetailActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        */
     }
 }
