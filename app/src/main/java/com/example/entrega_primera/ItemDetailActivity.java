@@ -28,14 +28,14 @@ public class ItemDetailActivity extends AppCompatActivity {
         textViewPrice = findViewById(R.id.textViewPrice);
         buttonEdit = findViewById(R.id.buttonEdit);
 
-        DBHandler db = new DBHandler(this);
+        dbHandler = new DBHandler(this);
 
         // Obtener el ID del elemento de la intención
         itemId = getIntent().getIntExtra("item_id", -1);
 
         if (itemId != -1) {
             // Cargar los detalles del elemento desde la base de datos
-            Item item = db.getItemFromId(itemId);
+            Item item = dbHandler.getItemFromId(itemId);
             if (item != null) {
                 System.out.println(item.getBrand());
                 textViewBrand.setText("Marca: " + item.getBrand());
@@ -56,7 +56,7 @@ public class ItemDetailActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         // User clicked Yes, delete the item
-                        db.deleteItem(itemId);
+                        dbHandler.deleteItem(itemId);
                         finish();
                     }
                 });
@@ -82,5 +82,28 @@ public class ItemDetailActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // Obtener el ID del elemento de la intención
+        int itemId = getIntent().getIntExtra("item_id", -1);
+
+        if (itemId != -1) {
+            // Cargar los detalles del elemento desde la base de datos
+            Item item = dbHandler.getItemFromId(itemId);
+            if (item != null) {
+                // Actualizar las vistas con los detalles del elemento
+                TextView textViewBrand = findViewById(R.id.textViewBrand);
+                TextView textViewModel = findViewById(R.id.textViewModel);
+                TextView textViewPrice = findViewById(R.id.textViewPrice);
+
+                textViewBrand.setText(item.getBrand());
+                textViewModel.setText(item.getModel());
+                textViewPrice.setText(Float.toString(item.getPrice()));
+            }
+        }
     }
 }
