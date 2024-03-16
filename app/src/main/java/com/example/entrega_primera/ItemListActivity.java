@@ -28,12 +28,9 @@ public class ItemListActivity extends AppCompatActivity {
         dbHandler = new DBHandler(this);
         listaItem = new ArrayList<Item>();
 
-
-
         listView = findViewById(R.id.listView);
         
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listaItem);
-        insertarDatos();
         listView.setAdapter(adapter);
 
         Button addButton = findViewById(R.id.addButton);

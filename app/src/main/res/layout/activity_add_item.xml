@@ -10,26 +10,26 @@
         android:id="@+id/editTextMarca"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Marca"/>
+        android:hint="@string/brand"/>
 
     <EditText
         android:id="@+id/editTextModel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="62dp"
-        android:hint="Modelo" />
+        android:hint="@string/model" />
 
     <EditText
         android:id="@+id/editTextPrice"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="124dp"
-        android:hint="Precio" />
+        android:hint="@string/price" />
 
     <Button
         android:id="@+id/buttonAdd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="180dp"
-        android:text="Añadir" />
+        android:text="@string/add" />
 </RelativeLayout>

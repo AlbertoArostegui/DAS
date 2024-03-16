@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Entrega 1</string>
+    <string name="language_title">Español</string>
+    <string name="language_dialog_title">Selecciona idioma</string>
+    <!-- Generics -->
+    <string name="brand">Marca</string>
+    <string name="model">Modelo</string>
+    <string name="price">Precio</string>
+    <!-- MainView -->
+    <string name="settings">Configuración</string>
+    <string name="list">Lista</string>
+    <!-- ListView -->
+    <string name="add_new">Añadir nuevo</string>
+    <!-- DetailView -->
+    <string name="delete">Eliminar</string>
+    <string name="edit">Editar</string>
+    <string name="confirm_delete">Confirmar eliminar</string>
+    <string name="are_you_sure">¿Estás seguro de que deseas elimnar este elemento?</string>
+    <!-- EditView -->
+    <string name="save">Guardar</string>-->
+    <!-- AddView -->
+    <string name="add">Añadir</string>
+</resources>

@@ -40,14 +40,14 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.8"
-                android:text="Editar"/>
+                android:text="@string/edit"/>
 
             <Button
                 android:id="@+id/buttonDelete"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.8"
-                android:text="Eliminar"
+                android:text="@string/delete"
                 android:backgroundTint="@android:color/holo_red_dark"/>
         </LinearLayout>
     </RelativeLayout>

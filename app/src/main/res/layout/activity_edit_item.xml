@@ -10,7 +10,7 @@
         android:id="@+id/editTextBrand"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Marca"/>
+        android:hint="@string/brand"/>
 
     <EditText
         android:id="@+id/editTextModel"
@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/editTextBrand"
         android:layout_marginTop="16dp"
-        android:hint="Modelo"/>
+        android:hint="@string/model"/>
 
     <EditText
         android:id="@+id/editTextPrice"
@@ -26,7 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/editTextModel"
         android:layout_marginTop="16dp"
-        android:hint="Precio"
+        android:hint="@string/price"
         android:inputType="numberDecimal"/>
 
     <Button
@@ -36,6 +36,6 @@
         android:layout_below="@id/editTextPrice"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="48dp"
-        android:text="Guardar" />
+        android:text="@string/save" />
 
 </RelativeLayout>

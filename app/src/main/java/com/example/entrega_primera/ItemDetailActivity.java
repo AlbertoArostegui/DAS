@@ -38,9 +38,9 @@ public class ItemDetailActivity extends AppCompatActivity {
             Item item = dbHandler.getItemFromId(itemId);
             if (item != null) {
                 System.out.println(item.getBrand());
-                textViewBrand.setText("Marca: " + item.getBrand());
-                textViewModel.setText("Modelo: " + item.getModel());
-                textViewPrice.setText("Precio: " + Float.toString(item.getPrice()) + "€");
+                textViewBrand.setText(getString(R.string.brand) + ": " + item.getBrand());
+                textViewModel.setText(getString(R.string.model) + ": " + item.getModel());
+                textViewPrice.setText(getString(R.string.price) + ": " + Float.toString(item.getPrice()) + "€");
             }
         }
 
@@ -49,10 +49,10 @@ public class ItemDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(ItemDetailActivity.this);
-                builder.setTitle("Confirmar eliminación");
-                builder.setMessage("¿Estás seguro de que quieres eliminar este elemento?");
+                builder.setTitle(getString(R.string.confirm_delete));
+                builder.setMessage(getString(R.string.are_you_sure));
 
-                builder.setPositiveButton("Sí", new DialogInterface.OnClickListener() {
+                builder.setPositiveButton(getString(android.R.string.yes), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         // User clicked Yes, delete the item
@@ -61,7 +61,7 @@ public class ItemDetailActivity extends AppCompatActivity {
                     }
                 });
 
-                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                builder.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
@@ -100,9 +100,9 @@ public class ItemDetailActivity extends AppCompatActivity {
                 TextView textViewModel = findViewById(R.id.textViewModel);
                 TextView textViewPrice = findViewById(R.id.textViewPrice);
 
-                textViewBrand.setText(item.getBrand());
-                textViewModel.setText(item.getModel());
-                textViewPrice.setText(Float.toString(item.getPrice()));
+                textViewBrand.setText(getString(R.string.brand) + ": " + item.getBrand());
+                textViewModel.setText(getString(R.string.model) + ": " + item.getModel());
+                textViewPrice.setText(getString(R.string.price) + ": " + Float.toString(item.getPrice()));
             }
         }
     }
