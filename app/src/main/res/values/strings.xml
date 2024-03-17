@@ -11,6 +11,7 @@
         <item>es</item>
     </string-array>
     <string name="language_dialog_title">Select language</string>
+    <string name="change_language">Change language</string>
     <!-- Generics -->
     <string name="brand">Brand</string>
     <string name="model">Model</string>
@@ -29,4 +30,7 @@
     <string name="save">Save</string>
     <!-- AddView -->
     <string name="add">Add</string>
+    <!-- Notification -->
+    <string name="notification_title">New Item Added</string>
+    <string name="notification_message">A new item has been added to the list</string>
 </resources>

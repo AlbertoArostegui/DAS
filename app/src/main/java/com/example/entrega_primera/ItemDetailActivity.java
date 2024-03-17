@@ -55,7 +55,6 @@ public class ItemDetailActivity extends AppCompatActivity {
                 builder.setPositiveButton(getString(android.R.string.yes), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        // User clicked Yes, delete the item
                         dbHandler.deleteItem(itemId);
                         finish();
                     }

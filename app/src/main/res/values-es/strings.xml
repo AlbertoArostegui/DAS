@@ -3,6 +3,8 @@
     <string name="app_name">Entrega 1</string>
     <string name="language_title">Español</string>
     <string name="language_dialog_title">Selecciona idioma</string>
+<string name="change_language">Cambiar idioma</string>
+
     <!-- Generics -->
     <string name="brand">Marca</string>
     <string name="model">Modelo</string>
@@ -21,4 +23,7 @@
     <string name="save">Guardar</string>-->
     <!-- AddView -->
     <string name="add">Añadir</string>
+    <!-- Notification -->
+    <string name="notification_title">Nuevo elemento añadido</string>
+    <string name="notification_message">Se ha añadido un nuevo elemento a la base de datos</string>
 </resources>

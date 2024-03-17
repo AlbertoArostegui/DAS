@@ -40,7 +40,6 @@ public class EditItemActivity extends AppCompatActivity {
             }
         }
 
-        // Configurar el botón para guardar los cambios
         buttonSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -52,10 +51,8 @@ public class EditItemActivity extends AppCompatActivity {
                 // Crear un nuevo objeto Item con los valores editados
                 Item editedItem = new Item(itemId, brand, model, price);
 
-                // Actualizar el elemento en la base de datos
                 dbHandler.editItem(editedItem);
 
-                // Cerrar esta actividad y volver a la anterior
                 finish();
             }
         });

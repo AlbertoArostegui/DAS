@@ -56,6 +56,7 @@ public class AddItemActivity extends AppCompatActivity {
 
         if (newRow != -1) {
             System.out.println("Se inserto correctamente");
+            MainActivity.notifyNewItem(this);
         }
     }
 }

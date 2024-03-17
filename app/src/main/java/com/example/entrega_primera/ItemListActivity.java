@@ -17,7 +17,7 @@ public class ItemListActivity extends AppCompatActivity {
 
     private ListView listView;
     private ArrayList<Item> listaItem;
-    private ArrayAdapter<Item> adapter;
+    private ItemAdapter adapter;
     private DBHandler dbHandler;
 
     @Override
@@ -30,25 +30,22 @@ public class ItemListActivity extends AppCompatActivity {
 
         listView = findViewById(R.id.listView);
         
-        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listaItem);
+        adapter = new ItemAdapter(this, R.layout.item_card, listaItem);
         listView.setAdapter(adapter);
 
         Button addButton = findViewById(R.id.addButton);
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Abrir la actividad para añadir un nuevo elemento
                 Intent intent = new Intent(ItemListActivity.this, AddItemActivity.class);
                 startActivity(intent);
             }
         });
 
-        // Configurar el ListView para abrir la actividad de detalle cuando se hace clic en un elemento
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Item item = listaItem.get(position);
-                // Abrir la actividad de detalle con los datos del elemento seleccionado
                 Intent intent = new Intent(ItemListActivity.this, ItemDetailActivity.class);
                 intent.putExtra("item_id", item.getId());
                 startActivity(intent);
@@ -64,7 +61,6 @@ public class ItemListActivity extends AppCompatActivity {
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        // do nothing
     }
     private void cargarItemsDeBaseDeDatos() {
         DBHandler handler = new DBHandler(this);

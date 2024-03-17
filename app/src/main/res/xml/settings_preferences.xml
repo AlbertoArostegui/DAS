@@ -9,6 +9,4 @@
         app:defaultValue="en"
         app:dialogTitle="@string/language_dialog_title" />
 
-    <!-- Aquí puedes agregar más preferencias según necesites -->
-
 </PreferenceScreen>

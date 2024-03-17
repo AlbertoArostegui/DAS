@@ -21,18 +21,16 @@ public class ItemAdapter extends ArrayAdapter<Item> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
-            convertView = LayoutInflater.from(context).inflate(R.layout.card_view, parent, false);
+            convertView = LayoutInflater.from(context).inflate(R.layout.item_card, parent, false);
         }
 
         Item currentItem = itemList.get(position);
 
-        TextView textBrand = convertView.findViewById(R.id.textoMarca);
-        TextView textModel = convertView.findViewById(R.id.textoModelo);
-        TextView textPrice = convertView.findViewById(R.id.textoPrecio);
+        TextView textBrand = convertView.findViewById(R.id.textBrand);
+        TextView textModel = convertView.findViewById(R.id.textModel);
 
         textBrand.setText(currentItem.getBrand());
         textModel.setText(currentItem.getModel());
-        textPrice.setText(Float.toString(currentItem.getPrice()));
 
         return convertView;
     }
