@@ -1,0 +1,27 @@
+services:
+  db:
+    image: mysql:8.3
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: das
+      MYSQL_USER: das_user
+      MYSQL_PASSWORD: root
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./db:/var/lib/mysql
+  
+  php_service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80"
+  
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    environment:
+      PMA_HOST: db
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "8081:80"

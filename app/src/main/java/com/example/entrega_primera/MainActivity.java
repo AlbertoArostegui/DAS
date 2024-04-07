@@ -4,6 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
+import androidx.lifecycle.Observer;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.WorkInfo;
+import androidx.work.WorkManager;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -18,6 +22,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 import android.content.Context;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -48,6 +53,20 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        OneTimeWorkRequest otwr = new
+                OneTimeWorkRequest.Builder(RemoteDBHandler.class).build();
+        WorkManager.getInstance(this).getWorkInfoById(otwr.getId())
+                .observe(this, new Observer<WorkInfo>() {
+                    @Override
+                    public void onChanged(WorkInfo workInfo) {
+                        if (workInfo != null && workInfo.getState().isFinished()) {
+                            TextView tvRes = findViewById(R.id.tv_result);
+                            notifyNewItem(MainActivity.this);
+                        }
+                    }
+                });
+        WorkManager.getInstance(this).enqueue(otwr);
 
         Button buttonSettings = findViewById(R.id.button_settings);
         buttonSettings.setOnClickListener(new View.OnClickListener() {
