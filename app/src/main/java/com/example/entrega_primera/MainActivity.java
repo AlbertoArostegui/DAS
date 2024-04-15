@@ -45,11 +45,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         createNotificationChannel();
 
-        Button buttonList = findViewById(R.id.button_list);
-        buttonList.setOnClickListener(new View.OnClickListener() {
+        Button accessButton = findViewById(R.id.button_access);
+        accessButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, ItemListActivity.class);
+                Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
                 startActivity(intent);
             }
         });

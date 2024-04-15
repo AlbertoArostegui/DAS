@@ -18,10 +18,10 @@
         android:layout_marginBottom="32dp"/>
 
     <Button
-        android:id="@+id/button_list"
+        android:id="@+id/button_access"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/list"
+        android:text="@string/access"
         android:layout_marginBottom="16dp" />
 
     <Button

@@ -37,13 +37,21 @@ public class RemoteDBHandler extends Worker {
             if (tag.equals("register")) {
                 String username = getInputData().getString("username");
                 String password = getInputData().getString("password");
-                return registerUser(username, password);
+                String nombre = getInputData().getString("nombre");
+                return registerUser(username, password, nombre);
+            } else if (tag.equals("login")) {
+                String username = getInputData().getString("username");
+                String password = getInputData().getString("password");
+                return login(username, password);
+            } else if (tag.equals("getname")) {
+                String username = getInputData().getString("username");
+                return getName(username);
             }
         }
         return Result.failure();
     }
 
-    private Result registerUser(String username, String password) {
+    private Result registerUser(String username, String password, String nombre) {
 
         dir += "register";
         HttpURLConnection urlConn = null;
@@ -52,6 +60,8 @@ public class RemoteDBHandler extends Worker {
         JSONObject json = new JSONObject();
         json.put("username", username);
         json.put("password", password);
+        json.put("nombre", nombre);
+
         try {
             urlConn = (HttpURLConnection) new URL(dir).openConnection();
             urlConn.setRequestMethod("POST");
@@ -97,7 +107,7 @@ public class RemoteDBHandler extends Worker {
 
         dir += "login";
         HttpURLConnection urlConn = null;
-        System.out.println("Connecting to " + dir + " to register user...");
+        System.out.println("Connecting to " + dir + " to log in...");
 
         JSONObject json = new JSONObject();
         json.put("username", username);
@@ -132,6 +142,59 @@ public class RemoteDBHandler extends Worker {
 
                 if (jsonResp.get("status").equals("ok")) {
                     return Result.success();
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return Result.failure();
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+        return Result.failure();
+    }
+
+    private Result getName(String username) {
+
+        dir += "getname";
+        HttpURLConnection urlConn = null;
+        System.out.println("Connecting to " + dir + " to get a name...");
+
+        JSONObject json = new JSONObject();
+        json.put("username", username);
+
+        try {
+            urlConn = (HttpURLConnection) new URL(dir).openConnection();
+            urlConn.setRequestMethod("POST");
+            urlConn.setDoOutput(true);
+            urlConn.setRequestProperty("Content-Type", "application/json");
+            urlConn.setRequestProperty("Accept", "application/json");
+
+            OutputStream out = urlConn.getOutputStream();
+            out.write(json.toJSONString().getBytes());
+            out.flush();
+            out.close();
+
+            int status = urlConn.getResponseCode();
+            String msg = urlConn.getResponseMessage();
+            System.out.println("Status: " + status);
+            System.out.println("Message: " + msg);
+            if (status == 200) {
+                BufferedInputStream inputStream = new BufferedInputStream(urlConn.getInputStream());
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
+                String line, res = "";
+                while ((line = bufferedReader.readLine()) != null) {
+                    res += line;
+                }
+                inputStream.close();
+
+                JSONParser parser = new JSONParser();
+                JSONObject jsonResp = (JSONObject) parser.parse(res);
+
+                if (jsonResp.get("status").equals("ok")) {
+                    Data datos = new Data.Builder()
+                            .putString("nombre", (String) jsonResp.get("nombre"))
+                            .build();
+                    return Result.success(datos);
                 }
             }
         } catch (IOException e) {

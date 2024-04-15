@@ -45,7 +45,7 @@ public class AddItemActivity extends AppCompatActivity {
                             if (workInfo.getState() == WorkInfo.State.SUCCEEDED) {
                                 if (workInfo.getTags().contains("REMOTE_DB_WORK")) {
                                     Data datos = workInfo.getOutputData();
-                                    String username = datos.getString("username");
+                                    String username = datos.getString("nombre");
                                     System.out.println("AddItemActivity: " + username);
                                     TextView tvRes = findViewById(R.id.tv_result2);
                                     tvRes.setText(username);
@@ -57,10 +57,11 @@ public class AddItemActivity extends AppCompatActivity {
                     }
                 });
 
-        OneTimeWorkRequest otwr = new OneTimeWorkRequest.Builder(RemoteDBHandler.class)
+        OneTimeWorkRequest getNameRequest = new OneTimeWorkRequest.Builder(RemoteDBHandler.class)
+                .setInputData(new Data.Builder().putString("tag", "getname").putString("username", "usuPrueba").build())
                 .addTag("REMOTE_DB_WORK")
                 .build();
-        WorkManager.getInstance(this).enqueue(otwr);
+        WorkManager.getInstance(this).enqueue(getNameRequest);
 
         Button buttonAdd = findViewById(R.id.buttonAdd);
         buttonAdd.setOnClickListener(new View.OnClickListener() {
