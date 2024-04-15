@@ -11,31 +11,135 @@ import androidx.work.WorkManager;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class RemoteDBHandler extends Worker {
-
+    private String dir = "http://192.168.1.10:8080/";
     public RemoteDBHandler(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);
     }
 
+    //Dispatcher. Aqui llegan peticiones asincronas con un "tag" y segun sea el tag se hace una cosa u otra
     public Result doWork() {
-        String dir = "http://localhost:8080";
+
+        String tag = getInputData().getString("tag");
+        if (tag != null) {
+            if (tag.equals("register")) {
+                String username = getInputData().getString("username");
+                String password = getInputData().getString("password");
+                return registerUser(username, password);
+            }
+        }
+        return Result.failure();
+    }
+
+    private Result registerUser(String username, String password) {
+
+        dir += "register";
         HttpURLConnection urlConn = null;
+        System.out.println("Connecting to " + dir + " to register user...");
+
+        JSONObject json = new JSONObject();
+        json.put("username", username);
+        json.put("password", password);
         try {
             urlConn = (HttpURLConnection) new URL(dir).openConnection();
+            urlConn.setRequestMethod("POST");
             urlConn.setDoOutput(true);
-            urlConn.setRequestMethod("GET");
             urlConn.setRequestProperty("Content-Type", "application/json");
             urlConn.setRequestProperty("Accept", "application/json");
-            urlConn.connect();
-            urlConn.getContent();
+
+            OutputStream out = urlConn.getOutputStream();
+            out.write(json.toJSONString().getBytes());
+            out.flush();
+            out.close();
+
+            int status = urlConn.getResponseCode();
+            String msg = urlConn.getResponseMessage();
+            System.out.println("Status: " + status);
+            System.out.println("Message: " + msg);
+            if (status == 200) {
+                BufferedInputStream inputStream = new BufferedInputStream(urlConn.getInputStream());
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
+                String line, res = "";
+                while ((line = bufferedReader.readLine()) != null) {
+                    res += line;
+                }
+                inputStream.close();
+
+                JSONParser parser = new JSONParser();
+                JSONObject jsonResp = (JSONObject) parser.parse(res);
+
+                if (jsonResp.get("status").equals("ok")) {
+                    return Result.success();
+                }
+            }
         } catch (IOException e) {
             e.printStackTrace();
             return Result.failure();
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
         }
-        return Result.success();
+        return Result.failure();
+    }
+
+    private Result login(String username, String password) {
+
+        dir += "login";
+        HttpURLConnection urlConn = null;
+        System.out.println("Connecting to " + dir + " to register user...");
+
+        JSONObject json = new JSONObject();
+        json.put("username", username);
+        json.put("password", password);
+        try {
+            urlConn = (HttpURLConnection) new URL(dir).openConnection();
+            urlConn.setRequestMethod("POST");
+            urlConn.setDoOutput(true);
+            urlConn.setRequestProperty("Content-Type", "application/json");
+            urlConn.setRequestProperty("Accept", "application/json");
+
+            OutputStream out = urlConn.getOutputStream();
+            out.write(json.toJSONString().getBytes());
+            out.flush();
+            out.close();
+
+            int status = urlConn.getResponseCode();
+            String msg = urlConn.getResponseMessage();
+            System.out.println("Status: " + status);
+            System.out.println("Message: " + msg);
+            if (status == 200) {
+                BufferedInputStream inputStream = new BufferedInputStream(urlConn.getInputStream());
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
+                String line, res = "";
+                while ((line = bufferedReader.readLine()) != null) {
+                    res += line;
+                }
+                inputStream.close();
+
+                JSONParser parser = new JSONParser();
+                JSONObject jsonResp = (JSONObject) parser.parse(res);
+
+                if (jsonResp.get("status").equals("ok")) {
+                    return Result.success();
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return Result.failure();
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+        return Result.failure();
     }
 }

@@ -18,7 +18,7 @@
     <string name="price">Price</string>
     <!-- MainView -->
     <string name="settings">Settings</string>
-    <string name="list">List</string>
+    <string name="access">Access</string>
     <!-- ListView -->
     <string name="add_new">Add new</string>
     <!-- DetailView -->
@@ -33,4 +33,5 @@
     <!-- Notification -->
     <string name="notification_title">New Item Added</string>
     <string name="notification_message">A new item has been added to the list</string>
+
 </resources>

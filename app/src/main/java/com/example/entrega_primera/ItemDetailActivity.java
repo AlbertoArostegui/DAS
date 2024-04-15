@@ -37,7 +37,6 @@ public class ItemDetailActivity extends AppCompatActivity {
             // Cargar los detalles del elemento desde la base de datos
             Item item = dbHandler.getItemFromId(itemId);
             if (item != null) {
-                System.out.println(item.getBrand());
                 textViewBrand.setText(getString(R.string.brand) + ": " + item.getBrand());
                 textViewModel.setText(getString(R.string.model) + ": " + item.getModel());
                 textViewPrice.setText(getString(R.string.price) + ": " + Float.toString(item.getPrice()) + "€");

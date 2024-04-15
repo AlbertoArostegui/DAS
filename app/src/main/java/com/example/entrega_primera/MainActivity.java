@@ -54,19 +54,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        OneTimeWorkRequest otwr = new
-                OneTimeWorkRequest.Builder(RemoteDBHandler.class).build();
-        WorkManager.getInstance(this).getWorkInfoById(otwr.getId())
-                .observe(this, new Observer<WorkInfo>() {
-                    @Override
-                    public void onChanged(WorkInfo workInfo) {
-                        if (workInfo != null && workInfo.getState().isFinished()) {
-                            TextView tvRes = findViewById(R.id.tv_result);
-                            notifyNewItem(MainActivity.this);
-                        }
-                    }
-                });
-        WorkManager.getInstance(this).enqueue(otwr);
 
         Button buttonSettings = findViewById(R.id.button_settings);
         buttonSettings.setOnClickListener(new View.OnClickListener() {

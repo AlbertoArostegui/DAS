@@ -11,7 +11,7 @@
     <string name="price">Precio</string>
     <!-- MainView -->
     <string name="settings">Configuración</string>
-    <string name="list">Lista</string>
+    <string name="access">Acceder</string>
     <!-- ListView -->
     <string name="add_new">Añadir nuevo</string>
     <!-- DetailView -->
