@@ -118,17 +118,18 @@ public class RemoteDBHandler extends Worker {
             urlConn.setDoOutput(true);
             urlConn.setRequestProperty("Content-Type", "application/json");
             urlConn.setRequestProperty("Accept", "application/json");
+            System.out.println(json.toJSONString());
 
             OutputStream out = urlConn.getOutputStream();
             out.write(json.toJSONString().getBytes());
             out.flush();
             out.close();
 
-            int status = urlConn.getResponseCode();
+            int statusCode = urlConn.getResponseCode();
             String msg = urlConn.getResponseMessage();
-            System.out.println("Status: " + status);
+            System.out.println("Status: " + statusCode);
             System.out.println("Message: " + msg);
-            if (status == 200) {
+            if (statusCode == 200) {
                 BufferedInputStream inputStream = new BufferedInputStream(urlConn.getInputStream());
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
                 String line, res = "";
@@ -138,19 +139,35 @@ public class RemoteDBHandler extends Worker {
                 inputStream.close();
 
                 JSONParser parser = new JSONParser();
+                System.out.println("res: " + res);
                 JSONObject jsonResp = (JSONObject) parser.parse(res);
+                System.out.println("jsonResp: " + jsonResp);
 
-                if (jsonResp.get("status").equals("ok")) {
-                    return Result.success();
+                String status = (String) jsonResp.get("status");
+                System.out.println("status: " + status);
+
+                if (status.equals("ok")) {
+                    System.out.println("Status is ok: " + status);
+                    Data datos = new Data.Builder()
+                            .putString("status", status)
+                            .build();
+                    return Result.success(datos);
                 }
             }
+
         } catch (IOException e) {
             e.printStackTrace();
-            return Result.failure();
+            Data datos = new Data.Builder()
+                    .putString("status", "error")
+                    .build();
+            return Result.failure(datos);
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
-        return Result.failure();
+        Data datos = new Data.Builder()
+                .putString("status", "error")
+                .build();
+        return Result.failure(datos);
     }
 
     private Result getName(String username) {

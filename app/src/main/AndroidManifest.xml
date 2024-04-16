@@ -20,6 +20,9 @@
             android:name=".RegisterActivity"
             android:exported="false" />
         <activity
+            android:name=".LoginActivity"
+            android:exported="false" />
+        <activity
             android:name=".EditItemActivity"
             android:exported="false" />
         <activity
@@ -42,6 +45,13 @@
             </intent-filter>
         </activity>
         <activity android:name=".SettingsActivity" />
+        <service
+            android:name=".MyFirebaseInstanceIDService"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>
