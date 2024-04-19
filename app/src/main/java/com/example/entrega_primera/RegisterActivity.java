@@ -3,18 +3,23 @@ package com.example.entrega_primera;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.work.Data;
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkInfo;
 import androidx.work.WorkManager;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.List;
 
@@ -59,12 +64,15 @@ public class RegisterActivity extends AppCompatActivity {
                                 }
                             });
 
+                    SharedPreferences prefs = getSharedPreferences("my_preferences", MODE_PRIVATE);
+                    String token = prefs.getString("fcm_token", null);
                     OneTimeWorkRequest registerRequest = new OneTimeWorkRequest.Builder(RemoteDBHandler.class)
                             .setInputData(new Data.Builder()
                                     .putString("tag", "register")
                                     .putString("username", usernameField.getText().toString())
                                     .putString("password", passwordField.getText().toString())
                                     .putString("nombre", nombreField.getText().toString())
+                                    .putString("token", token)
                                     .build())
                             .addTag("REMOTE_DB_WORK")
                             .build();
@@ -97,4 +105,6 @@ public class RegisterActivity extends AppCompatActivity {
 
         return true;
     }
+
+
 }

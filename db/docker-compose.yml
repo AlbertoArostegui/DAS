@@ -18,6 +18,11 @@ services:
     ports:
       - "8080:80"
   
+  fcm_php_service:
+    build:
+      context: "./fcm_php"
+      dockerfile: Dockerfile
+  
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     environment:
