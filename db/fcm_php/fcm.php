@@ -14,7 +14,7 @@ function sendFCM($token, $title, $message) {
         )
     );
     $headers = array(
-        "Authorization: key=g5F1L9RYZUcq7-QiNCQG4uTF-pc9vWw4O59ldEgxF-Y",
+        "Authorization: key=",
         "Content-Type: application/json"
     );
     $msgJson = json_encode($msg);
@@ -35,7 +35,7 @@ function sendFCM($token, $title, $message) {
 sleep(5);
 while (true) {
 
-    $token = "flyNv2m9RDG2aM1tlchno_:APA91bEGsFtcjBicFBmfYH9wiRJgagzWtkauhNC7fO_BE0AMRThf-PNrLAzLESA8PoCbvzFNf-5V8i01xGtbD8yFwwZRHn_N9ChE-FcGgCMXCKSfZqLy13xCrXgEWxfJK7mDGMr7HhUK";
+    $token = "";
     $title = "Notificación";
     $message = "Este es un mensaje de prueba";
 
