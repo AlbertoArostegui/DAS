@@ -39,11 +39,3 @@ message = messaging.MulticastMessage(
 response = messaging.send_multicast(message)
 
 print('{0} messages were sent successfully'.format(response.success_count))
-token = 'dvpSzXQOSm60YrGXHmpXzl:APA91bE74QYHULA5XfF6_MLvkSCnxTGp2fZmxLnX5N4VSfFUEC7zEG6gghE18H1Er2Cr-zvo5GPDteciuSv1981I-Vk9SLlU0EZQ5oNF-YBNVrbUuRLRCoNsOk9NXO5TNfm6axZCHJJp'
-message = messaging.Message(
-    data={
-        "title": "TIEMPO",
-        "body": "El tiempo en Bilbo es de 20ºC y soleado"
-    },
-    token=token,
-)
