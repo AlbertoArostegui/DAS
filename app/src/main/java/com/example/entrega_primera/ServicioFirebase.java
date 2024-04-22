@@ -25,10 +25,6 @@ public class ServicioFirebase extends FirebaseMessagingService {
     }
     private static final String TAG = "ServicioFirebase";
 
-
-
-
-
     @Override
     public void onNewToken(String token) {
         Log.d(TAG, "Refreshed token: " + token);
@@ -39,6 +35,9 @@ public class ServicioFirebase extends FirebaseMessagingService {
         Log.d(TAG, "Message received");
         if (remoteMessage.getData().size() > 0) {
             Log.d(TAG, "Message data payload: " + remoteMessage.getData());
+            String title = remoteMessage.getData().get("title");
+            String body = remoteMessage.getData().get("body");
+            showNotification(title, body);
         }
         if (remoteMessage.getNotification() != null) {
             Log.d(TAG, "Message Notification Body: " + remoteMessage.getNotification().getBody());
@@ -54,6 +53,7 @@ public class ServicioFirebase extends FirebaseMessagingService {
     }
 
     private void showNotification(String title, String message) {
+        Log.d(TAG, "showNotification: " + title + " " + message);
         Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_IMMUTABLE);
@@ -69,8 +69,10 @@ public class ServicioFirebase extends FirebaseMessagingService {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel(channelId, "Default channel", NotificationManager.IMPORTANCE_DEFAULT);
             manager.createNotificationChannel(channel);
+            Log.d(TAG, "showNotification: channel created");
         }
 
         manager.notify(0, builder.build());
+        Log.d(TAG, "showNotification: notify");
     }
 }

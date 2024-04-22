@@ -18,9 +18,9 @@ services:
     ports:
       - "8080:80"
   
-  fcm_php_service:
+  fcm_python_service:
     build:
-      context: "./fcm_php"
+      context: "./python"
       dockerfile: Dockerfile
   
   phpmyadmin:
