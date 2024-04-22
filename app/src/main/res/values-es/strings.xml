@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Entrega 1</string>
+    <string name="app_name">Entrega 2</string>
     <string name="language_title">Español</string>
     <string name="language_dialog_title">Selecciona idioma</string>
 <string name="change_language">Cambiar idioma</string>
@@ -26,4 +26,6 @@
     <!-- Notification -->
     <string name="notification_title">Nuevo elemento añadido</string>
     <string name="notification_message">Se ha añadido un nuevo elemento a la base de datos</string>
+    <!-- Register -->
+    <string name="fcm_notifications_check">Recivir notificaciones de FCM</string>
 </resources>

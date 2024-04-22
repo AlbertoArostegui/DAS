@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Entrega_primera</string>
+    <string name="app_name">Entrega2</string>
     <string name="language_title">English</string>
     <string-array name="languages">
         <item>English</item>
@@ -33,5 +33,7 @@
     <!-- Notification -->
     <string name="notification_title">New Item Added</string>
     <string name="notification_message">A new item has been added to the list</string>
+    <!-- Register -->
+    <string name="fcm_notifications_check">Receive FCM notifications</string>
 
 </resources>

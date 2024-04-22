@@ -18,13 +18,15 @@ function handleRegister() {
     $username = $data["username"];
     $password = $data["password"];
     $token = $data["token"];
+    $notificaciones = $data["notificaciones"];
 
     error_log("Nombre: " . $nombre);
     error_log("Username: " . $username);
     error_log("Password: " . $password);
     error_log("Token: " . $token);
+    error_log("Notificaciones: " . $notificaciones);
 
-    $sql = "INSERT INTO Usuario (nombre, username, password, token) VALUE ('$nombre', '$username', '$password', '$token')";
+    $sql = "INSERT INTO Usuario (nombre, username, password, notificaciones, token) VALUES ('$nombre', '$username', '$password', $notificaciones, '$token')";
     if ($con->query($sql) === TRUE) {
         $response = array("status" => "ok");
         header('Content-Type: application/json');

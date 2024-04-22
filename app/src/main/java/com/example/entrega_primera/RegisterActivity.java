@@ -3,14 +3,13 @@ package com.example.entrega_primera;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.CheckBox;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.work.Data;
@@ -18,8 +17,6 @@ import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkInfo;
 import androidx.work.WorkManager;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.List;
 
@@ -28,6 +25,7 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText nombreField, usernameField, passwordField, confirmPasswordField;
     private TextView loginLink;
     private Button registerButton;
+    private CheckBox notificationCheckBox;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,11 +38,16 @@ public class RegisterActivity extends AppCompatActivity {
         confirmPasswordField = findViewById(R.id.confirm_password);
         loginLink = findViewById(R.id.login_link);
         registerButton = findViewById(R.id.register_button);
+        notificationCheckBox = findViewById(R.id.notifications_checkbox);
 
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (validatePassword(passwordField.getText().toString(), confirmPasswordField.getText().toString())) {
+                    Boolean notifications = notificationCheckBox.isChecked();
+                    System.out.println("Notifications: " + notifications);
+                    int notificationsInt = notifications ? 1 : 0;
+                    System.out.println("NotificationsInt: " + notificationsInt);
                     WorkManager.getInstance(RegisterActivity.this).getWorkInfosByTagLiveData("REMOTE_DB_WORK")
                             .observe(RegisterActivity.this, new Observer<List<WorkInfo>>() {
                                 @Override
@@ -72,6 +75,7 @@ public class RegisterActivity extends AppCompatActivity {
                                     .putString("username", usernameField.getText().toString())
                                     .putString("password", passwordField.getText().toString())
                                     .putString("nombre", nombreField.getText().toString())
+                                    .putInt("notificaciones", notificationsInt)
                                     .putString("token", token)
                                     .build())
                             .addTag("REMOTE_DB_WORK")

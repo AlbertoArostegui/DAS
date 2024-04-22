@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">First task</string>
+    <string name="app_name">Second task</string>
     <string name="language_title">English</string>
     <string name="language_dialog_title">Select language</string>
     <string name="change_language">Change language</string>
@@ -25,4 +25,6 @@
     <!-- Notification -->
     <string name="notification_title">New Item Added</string>
     <string name="notification_message">A new item has been added to the list</string>
+    <!-- Register -->
+    <string name="fcm_notifications_check">Receive FCM notifications</string>
 </resources>

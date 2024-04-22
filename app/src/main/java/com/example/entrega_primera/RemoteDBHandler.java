@@ -39,7 +39,8 @@ public class RemoteDBHandler extends Worker {
                 String password = getInputData().getString("password");
                 String nombre = getInputData().getString("nombre");
                 String token = getInputData().getString("token");
-                return registerUser(username, password, nombre, token);
+                Integer notificaciones = getInputData().getInt("notificaciones", 0);
+                return registerUser(username, password, nombre, token, notificaciones);
             } else if (tag.equals("login")) {
                 String username = getInputData().getString("username");
                 String password = getInputData().getString("password");
@@ -52,7 +53,7 @@ public class RemoteDBHandler extends Worker {
         return Result.failure();
     }
 
-    private Result registerUser(String username, String password, String nombre, String token) {
+    private Result registerUser(String username, String password, String nombre, String token, Integer notificaciones) {
 
         dir += "register";
         HttpURLConnection urlConn = null;
@@ -63,6 +64,7 @@ public class RemoteDBHandler extends Worker {
         json.put("password", password);
         json.put("nombre", nombre);
         json.put("token", token);
+        json.put("notificaciones", notificaciones);
 
         try {
             urlConn = (HttpURLConnection) new URL(dir).openConnection();
