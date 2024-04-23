@@ -24,7 +24,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class RemoteDBHandler extends Worker {
-    private String dir = "http://192.168.1.10:8080/";
+    private String dir = "http://104.199.37.233:8080/";
     public RemoteDBHandler(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);
     }
@@ -45,9 +45,13 @@ public class RemoteDBHandler extends Worker {
                 String username = getInputData().getString("username");
                 String password = getInputData().getString("password");
                 return login(username, password);
-            } else if (tag.equals("getname")) {
+            } else if (tag.equals("getnameandphoto")) {
                 String username = getInputData().getString("username");
-                return getName(username);
+                return getNameAndPhoto(username);
+            } else if (tag.equals("pushphoto")) {
+                String encodedImage = getInputData().getString("encodedImage");
+                String username = getInputData().getString("username");
+                return pushPhoto(username, encodedImage);
             }
         }
         return Result.failure();
@@ -87,6 +91,7 @@ public class RemoteDBHandler extends Worker {
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
                 String line, res = "";
                 while ((line = bufferedReader.readLine()) != null) {
+                    System.out.println("line: " + line);
                     res += line;
                 }
                 inputStream.close();
@@ -174,9 +179,60 @@ public class RemoteDBHandler extends Worker {
         return Result.failure(datos);
     }
 
-    private Result getName(String username) {
+    public Result pushPhoto(String username, String encodedImage) {
 
-        dir += "getname";
+            dir += "pushphoto";
+            HttpURLConnection urlConn = null;
+            System.out.println("Connecting to " + dir + " to push a photo...");
+
+            JSONObject json = new JSONObject();
+            json.put("username", username);
+            json.put("encodedImage", encodedImage);
+
+            try {
+                urlConn = (HttpURLConnection) new URL(dir).openConnection();
+                urlConn.setRequestMethod("POST");
+                urlConn.setDoOutput(true);
+                urlConn.setRequestProperty("Content-Type", "application/json");
+                urlConn.setRequestProperty("Accept", "application/json");
+
+                OutputStream out = urlConn.getOutputStream();
+                out.write(json.toJSONString().getBytes());
+                out.flush();
+                out.close();
+
+                int status = urlConn.getResponseCode();
+                String msg = urlConn.getResponseMessage();
+                System.out.println("Status: " + status);
+                System.out.println("Message: " + msg);
+                if (status == 200) {
+                    BufferedInputStream inputStream = new BufferedInputStream(urlConn.getInputStream());
+                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
+                    String line, res = "";
+                    while ((line = bufferedReader.readLine()) != null) {
+                        res += line;
+                    }
+                    inputStream.close();
+
+                    JSONParser parser = new JSONParser();
+                    JSONObject jsonResp = (JSONObject) parser.parse(res);
+
+                    if (jsonResp.get("status").equals("ok")) {
+                        return Result.success();
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                return Result.failure();
+            } catch (ParseException e) {
+                throw new RuntimeException(e);
+            }
+            return Result.failure();
+    }
+
+    public Result getNameAndPhoto(String username) {
+
+        dir += "getnameandphoto";
         HttpURLConnection urlConn = null;
         System.out.println("Connecting to " + dir + " to get a name...");
 
@@ -214,6 +270,13 @@ public class RemoteDBHandler extends Worker {
                 if (jsonResp.get("status").equals("ok")) {
                     Data datos = new Data.Builder()
                             .putString("nombre", (String) jsonResp.get("nombre"))
+                            .putString("encodedImage", (String) jsonResp.get("encodedImage"))
+                            .build();
+                    return Result.success(datos);
+                } else if (jsonResp.get("status").equals("partial")) {
+                    Data datos = new Data.Builder()
+                            .putString("nombre", (String) jsonResp.get("nombre"))
+                            .putString("encodedImage", (String) jsonResp.get("encodedImage"))
                             .build();
                     return Result.success(datos);
                 }

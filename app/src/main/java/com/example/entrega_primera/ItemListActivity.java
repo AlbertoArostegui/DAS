@@ -51,6 +51,15 @@ public class ItemListActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        Button btnUserProfile = findViewById(R.id.btn_user_profile);
+        btnUserProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ItemListActivity.this, UserProfileActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -84,25 +93,5 @@ public class ItemListActivity extends AppCompatActivity {
         adapter.notifyDataSetChanged();
     }
 
-    private void insertarDatos() {
-        ContentValues values = new ContentValues();
-        values.put(DBHandler.COLUMN_BRAND, "Ford");
-        values.put(DBHandler.COLUMN_MODEL, "Raptor");
-        values.put(DBHandler.COLUMN_PRICE, "69999.0");
 
-        SQLiteDatabase db = dbHandler.getWritableDatabase();
-        long newRow = db.insert(DBHandler.TABLE_ITEMS, null, values);
-
-        values.put(DBHandler.COLUMN_BRAND, "McLaren");
-        values.put(DBHandler.COLUMN_MODEL, "P1");
-        values.put(DBHandler.COLUMN_PRICE, "1169999.0");
-
-
-        newRow = db.insert(DBHandler.TABLE_ITEMS, null, values);
-        db.close();
-
-        if (newRow != -1) {
-            System.out.println("Se inserto correctamente");
-        }
-    }
 }

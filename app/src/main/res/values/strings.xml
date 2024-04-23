@@ -35,5 +35,6 @@
     <string name="notification_message">A new item has been added to the list</string>
     <!-- Register -->
     <string name="fcm_notifications_check">Receive FCM notifications</string>
+    <string name="profile">Profile</string>
 
 </resources>

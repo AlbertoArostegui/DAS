@@ -3,7 +3,7 @@ import mysql.connector
 from firebase_admin import credentials, messaging
 from time import sleep
 
-sleep(2.5)
+sleep(6)
 
 cred = credentials.Certificate("entrega-segunda-firebase-adminsdk-0ohhs-c7b7877573.json")
 firebase_admin.initialize_app(cred)
@@ -30,12 +30,11 @@ for row in rows:
 message = messaging.MulticastMessage(
     data={
         "title": "TIEMPO",
-        "body": "El tiempo en Bilbo es de 20ºC y soleado"
+        "body": "El tiempo en Bilbao es de 20ºC y soleado"
     },
     tokens=tokens,
 )
 
 # Send the message
 response = messaging.send_multicast(message)
-
-print('{0} messages were sent successfully'.format(response.success_count))
+print("Successfully sent message:", response.success_count, "tokens were updated")

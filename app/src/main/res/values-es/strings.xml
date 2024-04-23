@@ -28,4 +28,5 @@
     <string name="notification_message">Se ha añadido un nuevo elemento a la base de datos</string>
     <!-- Register -->
     <string name="fcm_notifications_check">Recivir notificaciones de FCM</string>
+    <string name="profile">Perfil</string>
 </resources>

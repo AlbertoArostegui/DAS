@@ -7,4 +7,6 @@ COPY ./php /usr/src/myapp
 
 WORKDIR /usr/src/myapp
 
+RUN mkdir /usr/src/myapp/imagenes
+
 CMD [ "php", "-S", "0.0.0.0:80", "./gestordb.php" ]

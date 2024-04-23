@@ -71,8 +71,10 @@ function handleLogin() {
 
     $con->close();
 }
-function getName() {
+function getNameAndPhoto() {
     global $DB_SERVER, $DB_USER, $DB_PASS, $DB_DATABASE;
+
+
     $con = mysqli_connect($DB_SERVER, $DB_USER, $DB_PASS, $DB_DATABASE);
     #Comprobamos conexión
     if (mysqli_connect_errno()) {
@@ -82,23 +84,55 @@ function getName() {
 
     $data = json_decode(file_get_contents('php://input'), true);
     $username = $data["username"];
-    $password = $data["password"];
+
+    error_log("Get image for username: " . $username);
+
+    $image_encoded = getImage($username);
 
     $sql = "SELECT nombre FROM Usuario WHERE username='$username'";
     $res = $con->query($sql);
 
-    if ($res->num_rows > 0) {
+    if ($image_encoded != "null" && $res->num_rows > 0) {
         $nombre = $res->fetch_assoc()["nombre"];
-        $response = array("status" => "ok", "nombre" => $nombre);
+        $response = array("status" => "ok", "nombre" => $nombre, "encodedImage" => $image_encoded);
+        header('Content-Type: application/json');
+        echo json_encode($response);
+    } elseif ($res->num_rows > 0) {
+        $nombre = $res->fetch_assoc()["nombre"];
+        $response = array("status" => "partial", "nombre" => $nombre);
         header('Content-Type: application/json');
         echo json_encode($response);
     } else {
-        $response = array("status" => "error", "message" => "Usuario o contraseña incorrectos");
+        $response = array("status" => "error", "message" => "User not found");
         header('Content-Type: application/json');
         echo json_encode($response);
     }
 
     $con->close();   
+}
+
+function saveImage() {
+    $target_dir = "imagenes/";
+    $data = json_decode(file_get_contents('php://input'), true);
+    $encodedImage = $data["encodedImage"];
+    $decodedImage = base64_decode($encodedImage);
+    $username = $data["username"];
+
+    file_put_contents($target_dir . $username . ".jpg", $decodedImage);
+}
+
+function getImage($username) {
+    $target_dir = "imagenes/";
+    $path = $target_dir . $username . ".jpg";
+
+    if (file_exists($path)) {
+        $image = file_get_contents($path);
+        $encodedImage = base64_encode($image);
+
+        return $encodedImage;
+    } else {
+        return "null";
+    }
 }
 
 ?>
